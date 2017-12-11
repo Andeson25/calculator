@@ -9,8 +9,7 @@ for(var i = 0; i < keys.length; i++) {
 		var inputVal = input.innerHTML;
 		var btnVal = this.innerHTML;
 		if(btnVal == 'C') {
-			input.innerHTML = '';
-			decimalAdded = false;
+			
 		}
 		else if(btnVal == '=') {
 			var equation = inputVal;
@@ -41,6 +40,11 @@ for(var i = 0; i < keys.length; i++) {
 		}
 		else {
 			input.innerHTML += btnVal;
+		}
+		if(input.innerHTML==="Infinity"){
+			alert("You can`t divide by 0");	
+			input.innerHTML = '';
+			decimalAdded = false;
 		}
 		e.preventDefault();
 	} 
