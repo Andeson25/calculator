@@ -7,7 +7,7 @@ for (var i = 0; i < keys.length; i++) {
   keys[i].onclick = function(e) {
     var input = document.querySelector(".screen");
     var inputVal = input.innerHTML;
-    var btnVal = this.innerHTML;
+	var btnVal = this.innerHTML;
     if (btnVal === "C") {
       input.innerHTML = "";
       decimalAdded = false;
@@ -42,7 +42,7 @@ for (var i = 0; i < keys.length; i++) {
       input.innerHTML += btnVal;
     }
     if (input.innerHTML === "Infinity") {
-      alert("You can`t divide by 0!");
+      alert("Bad action alert!");
       input.innerHTML = "";
       decimalAdded = false;
     }
