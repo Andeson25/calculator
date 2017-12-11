@@ -1,11 +1,4 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font: bold 14px Arial, sans-serif;
-}
-
-body{
+body {
   text-align: center;
   font-family: sans-serif;
   min-height: 100vh;
@@ -18,8 +11,6 @@ body{
 }
 #calculator {
   width: 325px;
-  height: auto;
-  margin: 100px auto;
   padding: 20px 20px 9px;
   background: linear-gradient(#9dd2ea, #8bceec);
   border-radius: 3px;
@@ -76,7 +67,6 @@ body{
   background: #fff0f5;
   margin-right: 0;
 }
-
 .keys span.eval {
   background: #f1ff92;
   box-shadow: 0px 4px #9da853;
