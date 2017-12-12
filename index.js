@@ -24,7 +24,8 @@ for (var i = 0; i < keys.length; i++) {
     } else if (operators.indexOf(btnVal) > -1) {
       var lastChar = inputVal[inputVal.length - 1];
       if (input.innerHTML === "Infinity" && operators.indexOf(btnVal) != -1) {
-        input.innerHTML = btnVal==='-'? input.innerHTML = "-": input.innerHTML = '';
+        input.innerHTML =
+          btnVal === "-" ? (input.innerHTML = "-") : (input.innerHTML = "");
       } else if (inputVal != "" && operators.indexOf(lastChar) === -1) {
         input.innerHTML += btnVal;
       } else if (inputVal === "" && btnVal === "-") {
@@ -35,10 +36,12 @@ for (var i = 0; i < keys.length; i++) {
       }
       decimalAdded = false;
     } else if (btnVal === ".") {
+      var lastChar = inputVal[inputVal.length - 1];
       if (input.innerHTML === "Infinity") {
         input.innerHTML = "";
-      }
-      if (!decimalAdded&&inputVal.length>0) {
+      } else if (operators.indexOf(lastChar) > -1) {
+        return;
+      } else if (!decimalAdded && inputVal.length > 0) {
         input.innerHTML += btnVal;
         decimalAdded = true;
       }
