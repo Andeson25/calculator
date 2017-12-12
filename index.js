@@ -4,6 +4,7 @@ var decimalAdded = false;
 
 for (var i = 0; i < keys.length; i++) {
   keys[i].onclick = function(e) {
+    debugger;
     var input = document.querySelector(".screen");
     var inputVal = input.innerHTML;
     var btnVal = this.innerHTML;
@@ -23,10 +24,21 @@ for (var i = 0; i < keys.length; i++) {
       decimalAdded = false;
     } else if (operators.indexOf(btnVal) > -1) {
       var lastChar = inputVal[inputVal.length - 1];
-      if (input.innerHTML === "Infinity" && operators.indexOf(btnVal) != -1) {
+      if (input.innerHTML==="-") {
+        input.innerHTML ="-"
+      } else
+      if (input.innerHTML==="NaN") {
+        input.innerHTML =
+          btnVal === "-" ? (input.innerHTML = "-") : (input.innerHTML = "");
+      } else if (
+        input.innerHTML === "Infinity" ||
+        input.innerHTML === "-Infinity"
+      ) {
         input.innerHTML =
           btnVal === "-" ? (input.innerHTML = "-") : (input.innerHTML = "");
       } else if (inputVal != "" && operators.indexOf(lastChar) === -1) {
+        input.innerHTML += btnVal;
+      } else if (input.innerHTML != "") {
         input.innerHTML += btnVal;
       } else if (inputVal === "" && btnVal === "-") {
         input.innerHTML += btnVal;
