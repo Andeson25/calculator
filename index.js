@@ -1,9 +1,3 @@
-function addBanned(el) {
-  el.classList.add("banned");
-}
-function removeBanned(el) {
-  el.classList.remove("banned");
-}
 let keys = document.querySelectorAll("#calculator span");
 
 keys.forEach(el => {
@@ -81,8 +75,7 @@ var funArr = [
     ) {
       if (btnVal === "-") {
         input.innerHTML = "-";
-      } else addBanned(this);
-      setTimeout(() => removeBanned(this), 500);
+      }
       return;
     } else if (input.innerHTML.length === 0 && btnVal === "-") {
       input.innerHTML += btnVal;
@@ -104,8 +97,6 @@ var funArr = [
       input.innerHTML = btnVal;
       decimalAdded = true;
     } else if (lastChar === ")" || lastChar === ".") {
-      addBanned(this);
-      setTimeout(() => removeBanned(this), 500);
       return;
     } else if (decimalAdded === false) {
       input.innerHTML += btnVal;
@@ -144,8 +135,6 @@ var funArr = [
       openCount <= 0 ||
       lastChar === "("
     ) {
-      addBanned(this);
-      setTimeout(() => removeBanned(this), 500);
       return;
     } else if (openCount > 0) {
       input.innerHTML += btnVal;
@@ -170,8 +159,6 @@ var funArr = [
       input.innerHTML === "Infiinity" ||
       input.innerHTML === "-Infinity"
     ) {
-      addBanned(this);
-      setTimeout(() => removeBanned(this), 500);
       return;
     } else if (lastChar === ".") {
       input.innerHTML = input.innerHTML.substring(
@@ -198,8 +185,6 @@ var funArr = [
   },
   function otherExceptions(input, lastChar, btnVal) {
     if (lastChar === ")") {
-      addBanned(this);
-      setTimeout(() => removeBanned(this), 500);
       return;
     } else if (
       input.innerHTML === "NaN" ||
