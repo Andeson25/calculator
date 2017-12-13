@@ -1,7 +1,7 @@
 var keys = document.querySelectorAll("#calculator span");
-keys.forEach(el=>{
-  el.addEventListener("click",activated);
-})
+keys.forEach(el => {
+  el.addEventListener("click", activated);
+});
 var operators = ["+", "-", "x", "÷"];
 var decimalAdded = false;
 var openBrack = false;
@@ -62,7 +62,6 @@ function activated(e) {
         decimalAdded = false;
       }
     } else if (btnVal === ".") {
-      debugger;
       if (
         input.innerHTML === "NaN" ||
         input.innerHTML === "Infiinity" ||
@@ -95,7 +94,6 @@ function activated(e) {
         input.innerHTML += btnVal;
       }
     } else if (btnVal === ")") {
-      debugger;
       if (
         input.innerHTML === "NaN" ||
         input.innerHTML === "Infiinity" ||
