@@ -1,6 +1,8 @@
 var keys = document.querySelectorAll("#calculator span");
 var operators = ["+", "-", "x", "÷"];
 var decimalAdded = false;
+var openBrack = false;
+var openCount = 0;
 
 for (var i = 0; i < keys.length; i++) {
   keys[i].onclick = function(e) {
@@ -24,10 +26,9 @@ for (var i = 0; i < keys.length; i++) {
       decimalAdded = false;
     } else if (operators.indexOf(btnVal) > -1) {
       var lastChar = inputVal[inputVal.length - 1];
-      if (input.innerHTML==="-") {
-        input.innerHTML ="-"
-      } else
-      if (input.innerHTML==="NaN") {
+      if (input.innerHTML === "-") {
+        input.innerHTML = "-";
+      } else if (input.innerHTML === "NaN") {
         input.innerHTML =
           btnVal === "-" ? (input.innerHTML = "-") : (input.innerHTML = "");
       } else if (
@@ -48,7 +49,6 @@ for (var i = 0; i < keys.length; i++) {
       }
       decimalAdded = false;
     } else if (btnVal === ".") {
-      var lastChar = inputVal[inputVal.length - 1];
       if (input.innerHTML === "Infinity") {
         input.innerHTML = "";
       } else if (operators.indexOf(lastChar) > -1) {
@@ -56,6 +56,34 @@ for (var i = 0; i < keys.length; i++) {
       } else if (!decimalAdded && inputVal.length > 0) {
         input.innerHTML += btnVal;
         decimalAdded = true;
+      }
+    } else if (btnVal === "(") {
+      var lastChar = inputVal[inputVal.length - 1];
+      if (lastChar === ")") {
+        input.innerHTML += "";
+      } else {
+        openCount++;
+        input.innerHTML += btnVal;
+      }
+    } else if (btnVal === ")") {
+      if (openCount <= 0) {
+        input.innerHTML += "";
+      } else if (openCount > 0) {
+        input.innerHTML += btnVal;
+        openCount--;
+      }
+    } else if (btnVal === "DEL") {
+      if (
+        input.innerHTML === "NaN" ||
+        input.innerHTML === "Infiinity" ||
+        input.innerHTML === "-Infinity"
+      ) {
+        input.innerHTML = "";
+      } else {
+        input.innerHTML = input.innerHTML.substring(
+          0,
+          input.innerHTML.length - 1
+        );
       }
     } else {
       if (input.innerHTML === "Infinity") {
