@@ -34,11 +34,14 @@ for (var i = 0; i < keys.length; i++) {
         if (lastChar === "(" && btnVal === "-") {
           input.innerHTML += btnVal;
           decimalAdded = false;
-        } else if (lastChar === "(") {
-          return;
-        } else if (lastChar === ".") {
-          return;
-        } else if (input.innerHTML === "-") {
+        } else if (
+          lastChar === "(" ||
+          lastChar === "." ||
+          input.innerHTML === "-" ||
+          (input.innerHTML[input.innerHTML.length - 2] === "(" &&
+            input.innerHTML[input.innerHTML.length - 1] === "-" &&
+            btnVal != "-")
+        ) {
           return;
         } else if (
           input.innerHTML === "NaN" ||
@@ -50,12 +53,6 @@ for (var i = 0; i < keys.length; i++) {
         } else if (input.innerHTML.length === 0 && btnVal === "-") {
           input.innerHTML += btnVal;
           decimalAdded = false;
-        } else if (
-          input.innerHTML[input.innerHTML.length - 2] === "(" &&
-          input.innerHTML[input.innerHTML.length - 1] === "-" &&
-          btnVal != "-"
-        ) {
-          return;
         } else if (operators.indexOf(lastChar) > -1) {
           input.innerHTML = input.innerHTML.replace(/.$/, btnVal);
           decimalAdded = false;
@@ -73,8 +70,6 @@ for (var i = 0; i < keys.length; i++) {
           input.innerHTML = btnVal;
           decimalAdded = true;
         } else if (lastChar === ")" || lastChar === ".") {
-          return;
-        } else if (operators.indexOf(lastChar) > -1) {
           return;
         } else if (decimalAdded === false) {
           input.innerHTML += btnVal;
@@ -106,11 +101,11 @@ for (var i = 0; i < keys.length; i++) {
           input.innerHTML === "-Infinity"
         ) {
           input.innerHTML = "";
-        } else if (operators.indexOf(lastChar) > -1) {
-          return;
-        } else if (openCount <= 0) {
-          return;
-        } else if (lastChar === "(") {
+        } else if (
+          operators.indexOf(lastChar) > -1 ||
+          openCount <= 0 ||
+          lastChar === "("
+        ) {
           return;
         } else if (openCount > 0) {
           input.innerHTML += btnVal;
