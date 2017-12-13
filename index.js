@@ -6,6 +6,7 @@ var openCount = 0;
 var numbersIndex = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 for (var i = 0; i < keys.length; i++) {
   keys[i].onclick = function(e) {
+    debugger;
     var input = document.querySelector(".screen");
     var btnVal = this.innerHTML;
     var lastChar = input.innerHTML[input.innerHTML.length - 1];
@@ -101,11 +102,7 @@ for (var i = 0; i < keys.length; i++) {
           input.innerHTML === "-Infinity"
         ) {
           input.innerHTML = "";
-        } else if (
-          operators.indexOf(lastChar) > -1 ||
-          openCount <= 0 ||
-          lastChar === "("
-        ) {
+        } else if (operators.indexOf(lastChar) > -1||openCount <= 0||lastChar === "(") {
           return;
         } else if (openCount > 0) {
           input.innerHTML += btnVal;
