@@ -10,6 +10,12 @@ for (var i = 0; i < keys.length; i++) {
     var input = document.querySelector(".screen");
     var inputVal = input.innerHTML;
     var btnVal = this.innerHTML;
+    if(input.innerHTML.length>=30)
+    {
+      alert("Limit of charachters!");
+    } 
+    else
+    {
     if (btnVal === "C") {
       input.innerHTML = "";
       decimalAdded = false;
@@ -85,12 +91,13 @@ for (var i = 0; i < keys.length; i++) {
           input.innerHTML.length - 1
         );
       }
-    } else {
+    }else  {
       if (input.innerHTML === "Infinity") {
         input.innerHTML = "";
       }
       input.innerHTML += btnVal;
     }
     e.preventDefault();
+  }
   };
 }
