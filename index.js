@@ -26,13 +26,16 @@ for (var i = 0; i < keys.length; i++) {
         var equation = inputVal;
         var lastChar = equation[equation.length - 1];
         equation = equation.replace(/x/g, "*").replace(/÷/g, "/");
-        if (operators.indexOf(lastChar) > -1 || lastChar === ".") {
+        if (operators.indexOf(lastChar) > -1) {
+          alert("Wrong input!");
+        } else if (operators.indexOf(lastChar) > -1 || lastChar === ".") {
           equation = equation.replace(/.$/, "");
         }
         if (equation) {
           input.innerHTML = eval(equation);
         }
       } else if (operators.indexOf(btnVal) > -1) {
+        decimalAdded = false;
         var lastChar = inputVal[inputVal.length - 1];
         if (lastChar === "(" && btnVal === "-") {
           input.innerHTML += btnVal;
@@ -51,15 +54,21 @@ for (var i = 0; i < keys.length; i++) {
         ) {
           input.innerHTML =
             btnVal === "-" ? (input.innerHTML = "-") : (input.innerHTML = "");
-        } else if (input.innerHTML != "") {
-          input.innerHTML += btnVal;
         } else if (inputVal.length === 0 && btnVal === "-") {
           input.innerHTML += btnVal;
+        } else if (
+          input.innerHTML[input.innerHTML.length - 2] === "(" &&
+          input.innerHTML[input.innerHTML.length - 1] === "-" &&
+          btnVal != "-"
+        ) {
+          return;
         } else if (
           operators.indexOf(lastChar) > -1 &&
           input.innerHTML.length > 1
         ) {
           input.innerHTML = inputVal.replace(/.$/, btnVal);
+        } else if (input.innerHTML != "") {
+          input.innerHTML += btnVal;
         }
       } else if (btnVal === ".") {
         var lastChar = inputVal[inputVal.length - 1];
@@ -88,7 +97,9 @@ for (var i = 0; i < keys.length; i++) {
         }
       } else if (btnVal === ")") {
         var lastChar = input.innerHTML[inputVal.length - 1];
-        if (openCount <= 0) {
+        if (operators.indexOf(lastChar) > -1) {
+          return;
+        } else if (openCount <= 0) {
           input.innerHTML += "";
         } else if (lastChar === "(") {
           input.innerHTML += "";
@@ -97,7 +108,14 @@ for (var i = 0; i < keys.length; i++) {
           openCount--;
         }
       } else if (btnVal === "DEL") {
-        if (
+        var lastChar = input.innerHTML[inputVal.length - 1];
+        if (lastChar === ")") {
+          openCount++;
+          input.innerHTML = input.innerHTML.substring(
+            0,
+            input.innerHTML.length - 1
+          );
+        } else if (
           input.innerHTML === "NaN" ||
           input.innerHTML === "Infiinity" ||
           input.innerHTML === "-Infinity"
@@ -112,8 +130,10 @@ for (var i = 0; i < keys.length; i++) {
       } else {
         if (input.innerHTML === "Infinity") {
           input.innerHTML = "";
-        }
-        input.innerHTML += btnVal;
+        } else var lastChar = input.innerHTML[inputVal.length - 1];
+        if (lastChar === ")") {
+          return;
+        } else input.innerHTML += btnVal;
       }
       e.preventDefault();
     }
