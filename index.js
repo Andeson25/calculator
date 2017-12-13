@@ -1,15 +1,16 @@
-var keys = document.querySelectorAll("#calculator span");
+let keys = document.querySelectorAll("#calculator span");
+
 keys.forEach(el => {
   el.addEventListener("click", activated);
 });
-var operators = ["+", "-", "x", "÷"];
-var decimalAdded = false;
-var openBrack = false;
-var openCount = 0;
+const operators = ["+", "-", "x", "÷"];
+let decimalAdded = false;
+let openBrack = false;
+let openCount = 0;
 function activated(e) {
-  var input = document.querySelector(".screen");
-  var btnVal = this.innerHTML;
-  var lastChar = input.innerHTML[input.innerHTML.length - 1];
+  let input = document.querySelector(".screen");
+  let btnVal = this.innerHTML;
+  let lastChar = input.innerHTML.slice(-1);
   if (input.innerHTML.length >= 30) {
     if (btnVal === "C") {
       input.innerHTML = "";
@@ -23,7 +24,7 @@ function activated(e) {
     if (btnVal === "C") {
       input.innerHTML = "";
     } else if (btnVal === "=") {
-      var equation = input.innerHTML;
+      let equation = input.innerHTML;
       let lastChar = equation[equation.length - 1];
       equation = equation.replace(/x/g, "*").replace(/÷/g, "/");
       if (operators.indexOf(lastChar) > -1) {
@@ -41,16 +42,17 @@ function activated(e) {
         input.innerHTML === "-" ||
         (input.innerHTML[input.innerHTML.length - 2] === "(" &&
           input.innerHTML[input.innerHTML.length - 1] === "-" &&
-          btnVal != "-")
+          btnVal != "-"||input.innerHTML === "NaN" ||
+          input.innerHTML === "Infinity" ||
+          input.innerHTML === "-Infinity")
       ) {
+        if(btnVal==="-")
+        {
+          input.innerHTML = "-"
+        }else
+        addBanned(this);
+        setTimeout(() => removeBanned(this),500);
         return;
-      } else if (
-        input.innerHTML === "NaN" ||
-        input.innerHTML === "Infinity" ||
-        input.innerHTML === "-Infinity"
-      ) {
-        input.innerHTML =
-          btnVal === "-" ? (input.innerHTML = "-") : (input.innerHTML = "");
       } else if (input.innerHTML.length === 0 && btnVal === "-") {
         input.innerHTML += btnVal;
         decimalAdded = false;
@@ -70,6 +72,8 @@ function activated(e) {
         input.innerHTML = btnVal;
         decimalAdded = true;
       } else if (lastChar === ")" || lastChar === ".") {
+        addBanned(this);
+        setTimeout(() => removeBanned(this),500);
         return;
       } else if (decimalAdded === false) {
         input.innerHTML += btnVal;
@@ -105,6 +109,8 @@ function activated(e) {
         openCount <= 0 ||
         lastChar === "("
       ) {
+        addBanned(this);
+        setTimeout(() => removeBanned(this),500);
         return;
       } else if (openCount > 0) {
         input.innerHTML += btnVal;
@@ -128,6 +134,8 @@ function activated(e) {
         input.innerHTML === "Infiinity" ||
         input.innerHTML === "-Infinity"
       ) {
+        addBanned(this);
+        setTimeout(() => removeBanned(this),500);
         return;
       } else if (lastChar === ".") {
         input.innerHTML = input.innerHTML.substring(
@@ -153,6 +161,8 @@ function activated(e) {
       }
     } else {
       if (lastChar === ")") {
+        addBanned(this);
+        setTimeout(() => removeBanned(this),500);
         return;
       } else if (
         input.innerHTML === "NaN" ||
@@ -164,4 +174,10 @@ function activated(e) {
     }
     e.preventDefault();
   }
+}
+function addBanned(el){
+  el.classList.add("banned")
+}
+function removeBanned(el){
+  el.classList.remove("banned")
 }

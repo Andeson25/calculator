@@ -21,10 +21,21 @@ body {
 .top {
   display: grid;
   grid-template-columns: 1fr 4fr 1fr;
+  transition: all 0.5s ease;
 }
 .top .clear {
   grid-column: 1/2;
   
+}
+body>#calculator>div.keys>span.banned{
+  background-color: red;
+  box-shadow: 0px 4px red;
+  transition: all 0.5s ease;
+}
+body>#calculator>div.top>span.banned{
+  background-color: red;
+  box-shadow: 0px 4px red;
+  transition: all 0.5s ease;
 }
 .top .screen {
   height: 45px;
@@ -48,6 +59,7 @@ body {
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(4, 1fr);
   grid-gap: 10px;
+  transition: all 0.5s ease;
 }
 .top > span.clear,.top>span.delete{
   margin-bottom: 0.5em;
@@ -80,6 +92,7 @@ div.keys > span.bracketcloset{
   grid-column: 5;
   grid-row: 3/5;
   background:#6BC0E5;
+  /* transition: all 0.5s ease; */
 }
 .keys span.operator {
   background: #fff0f5;
