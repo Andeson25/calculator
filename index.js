@@ -35,7 +35,7 @@ function activated(e) {
     } else if (btnVal === "DEL") {
       deleteChar(input, lastChar, btnVal);
     } else {
-      otherExceptions(input,lastChar,btnVal);
+      otherExceptions(input, lastChar, btnVal);
     }
     e.preventDefault();
   }
@@ -113,8 +113,8 @@ function opBrack(input, lastChar, btnVal) {
   if (
     input.innerHTML === "NaN" ||
     input.innerHTML === "Infiinity" ||
-    input.innerHTML === "-Infinity"||
-    lastChar==="("
+    input.innerHTML === "-Infinity" ||
+    lastChar === "("
   ) {
     input.innerHTML = btnVal;
   } else if (input.innerHTML === "") {
@@ -178,7 +178,7 @@ function deleteChar(input, lastChar, btnVal) {
     input.innerHTML = input.innerHTML.substring(0, input.innerHTML.length - 1);
   }
 }
-function otherExceptions(input,lastChar,btnVal){
+function otherExceptions(input, lastChar, btnVal) {
   if (lastChar === ")") {
     addBanned(this);
     setTimeout(() => removeBanned(this), 500);
@@ -189,5 +189,5 @@ function otherExceptions(input,lastChar,btnVal){
     input.innerHTML === "-Infinity"
   ) {
     input.innerHTML = btnVal;
-  } else input.innerHTML += btnVal; 
+  } else input.innerHTML += btnVal;
 }
