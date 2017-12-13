@@ -6,7 +6,6 @@ var openCount = 0;
 var numbersIndex = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 for (var i = 0; i < keys.length; i++) {
   keys[i].onclick = function(e) {
-    debugger;
     var input = document.querySelector(".screen");
     var inputVal = input.innerHTML;
     var btnVal = this.innerHTML;
