@@ -21,119 +21,21 @@ function activated(e) {
     limitedChars();
   } else {
     if (btnVal === "C") {
-      clear();
+      clear(input);
     } else if (btnVal === "=") {
-      solve();
+      solve(input, lastChar);
     } else if (operators.indexOf(btnVal) > -1) {
-      operat();
+      operat(input, lastChar, btnVal);
     } else if (btnVal === ".") {
-      if (
-        input.innerHTML === "NaN" ||
-        input.innerHTML === "Infiinity" ||
-        input.innerHTML === "-Infinity"
-      ) {
-        input.innerHTML = btnVal;
-        decimalAdded = true;
-      } else if (lastChar === ")" || lastChar === ".") {
-        addBanned(this);
-        setTimeout(() => removeBanned(this), 500);
-        return;
-      } else if (decimalAdded === false) {
-        input.innerHTML += btnVal;
-        decimalAdded = true;
-      }
+      decim(input, lastChar, btnVal);
     } else if (btnVal === "(") {
-      if (
-        input.innerHTML === "NaN" ||
-        input.innerHTML === "Infiinity" ||
-        input.innerHTML === "-Infinity"
-      ) {
-        input.innerHTML = btnVal;
-      } else if (input.innerHTML === "") {
-        input.innerHTML += btnVal;
-        openCount++;
-      } else if (isNaN(lastChar) === false) {
-        input.innerHTML += "";
-      } else if (lastChar === ")") {
-        input.innerHTML += "";
-      } else {
-        openCount++;
-        input.innerHTML += btnVal;
-      }
+      opBrack(input, lastChar, btnVal);
     } else if (btnVal === ")") {
-      if (
-        input.innerHTML === "NaN" ||
-        input.innerHTML === "Infiinity" ||
-        input.innerHTML === "-Infinity"
-      ) {
-        input.innerHTML = "";
-      } else if (
-        operators.indexOf(lastChar) > -1 ||
-        openCount <= 0 ||
-        lastChar === "("
-      ) {
-        addBanned(this);
-        setTimeout(() => removeBanned(this), 500);
-        return;
-      } else if (openCount > 0) {
-        input.innerHTML += btnVal;
-        openCount--;
-      }
+      closBrack(input, lastChar, btnVal);
     } else if (btnVal === "DEL") {
-      if (lastChar === "(") {
-        openCount--;
-        input.innerHTML = input.innerHTML.substring(
-          0,
-          input.innerHTML.length - 1
-        );
-      } else if (lastChar === ")") {
-        openCount++;
-        input.innerHTML = input.innerHTML.substring(
-          0,
-          input.innerHTML.length - 1
-        );
-      } else if (
-        input.innerHTML === "NaN" ||
-        input.innerHTML === "Infiinity" ||
-        input.innerHTML === "-Infinity"
-      ) {
-        addBanned(this);
-        setTimeout(() => removeBanned(this), 500);
-        return;
-      } else if (lastChar === ".") {
-        input.innerHTML = input.innerHTML.substring(
-          0,
-          input.innerHTML.length - 1
-        );
-        decimalAdded = false;
-      } else if (operators.indexOf(lastChar) > -1) {
-        decimalAdded = true;
-        input.innerHTML = input.innerHTML.substring(
-          0,
-          input.innerHTML.length - 1
-        );
-
-        if (input.innerHTML.search(".") === -1) {
-          decimalAdded = false;
-        }
-      } else {
-        input.innerHTML = input.innerHTML.substring(
-          0,
-          input.innerHTML.length - 1
-        );
-      }
+      deleteChar(input, lastChar, btnVal);
     } else {
-      if (lastChar === ")") {
-        addBanned(this);
-        setTimeout(() => removeBanned(this), 500);
-        return;
-      } else if (
-        input.innerHTML === "NaN" ||
-        input.innerHTML === "Infinity" ||
-        input.innerHTML === "-Infinity"
-      ) {
-        input.innerHTML = btnVal;
-      } else input.innerHTML += btnVal;
+      otherExceptions(input,lastChar,btnVal);
     }
     e.preventDefault();
   }
@@ -146,20 +48,20 @@ function limitedChars() {
     input.innerHTML = input.innerHTML.substring(0, input.innerHTML.length - 1);
   } else alert("Limit of charachters!");
 }
-function clear() {
+function clear(input) {
   input.innerHTML = "";
 }
-function solve() {
+function solve(input, screenLastChar) {
   let equation = input.innerHTML;
   let lastChar = equation[equation.length - 1];
   equation = equation.replace(/x/g, "*").replace(/÷/g, "/");
-  if (operators.indexOf(lastChar) > -1) {
+  if (operators.indexOf(screenLastChar) > -1) {
     alert("Wrong input!");
   } else if (equation) {
     input.innerHTML = eval(equation);
   }
 }
-function operat() {
+function operat(input, lastChar, btnVal) {
   if (lastChar === "(" && btnVal === "-") {
     input.innerHTML += btnVal;
     decimalAdded = false;
@@ -189,4 +91,103 @@ function operat() {
     input.innerHTML += btnVal;
     decimalAdded = false;
   }
+}
+function decim(input, lastChar, btnVal) {
+  if (
+    input.innerHTML === "NaN" ||
+    input.innerHTML === "Infiinity" ||
+    input.innerHTML === "-Infinity"
+  ) {
+    input.innerHTML = btnVal;
+    decimalAdded = true;
+  } else if (lastChar === ")" || lastChar === ".") {
+    addBanned(this);
+    setTimeout(() => removeBanned(this), 500);
+    return;
+  } else if (decimalAdded === false) {
+    input.innerHTML += btnVal;
+    decimalAdded = true;
+  }
+}
+function opBrack(input, lastChar, btnVal) {
+  if (
+    input.innerHTML === "NaN" ||
+    input.innerHTML === "Infiinity" ||
+    input.innerHTML === "-Infinity"||
+    lastChar==="("
+  ) {
+    input.innerHTML = btnVal;
+  } else if (input.innerHTML === "") {
+    input.innerHTML += btnVal;
+    openCount++;
+  } else if (isNaN(lastChar) === false) {
+    input.innerHTML += "";
+  } else if (lastChar === ")") {
+    input.innerHTML += "";
+  } else {
+    openCount++;
+    input.innerHTML += btnVal;
+  }
+}
+function closBrack(input, lastChar, btnVal) {
+  if (
+    input.innerHTML === "NaN" ||
+    input.innerHTML === "Infiinity" ||
+    input.innerHTML === "-Infinity"
+  ) {
+    input.innerHTML = "";
+  } else if (
+    operators.indexOf(lastChar) > -1 ||
+    openCount <= 0 ||
+    lastChar === "("
+  ) {
+    addBanned(this);
+    setTimeout(() => removeBanned(this), 500);
+    return;
+  } else if (openCount > 0) {
+    input.innerHTML += btnVal;
+    openCount--;
+  }
+}
+function deleteChar(input, lastChar, btnVal) {
+  if (lastChar === "(") {
+    openCount--;
+    input.innerHTML = input.innerHTML.substring(0, input.innerHTML.length - 1);
+  } else if (lastChar === ")") {
+    openCount++;
+    input.innerHTML = input.innerHTML.substring(0, input.innerHTML.length - 1);
+  } else if (
+    input.innerHTML === "NaN" ||
+    input.innerHTML === "Infiinity" ||
+    input.innerHTML === "-Infinity"
+  ) {
+    addBanned(this);
+    setTimeout(() => removeBanned(this), 500);
+    return;
+  } else if (lastChar === ".") {
+    input.innerHTML = input.innerHTML.substring(0, input.innerHTML.length - 1);
+    decimalAdded = false;
+  } else if (operators.indexOf(lastChar) > -1) {
+    decimalAdded = true;
+    input.innerHTML = input.innerHTML.substring(0, input.innerHTML.length - 1);
+
+    if (input.innerHTML.search(".") === -1) {
+      decimalAdded = false;
+    }
+  } else {
+    input.innerHTML = input.innerHTML.substring(0, input.innerHTML.length - 1);
+  }
+}
+function otherExceptions(input,lastChar,btnVal){
+  if (lastChar === ")") {
+    addBanned(this);
+    setTimeout(() => removeBanned(this), 500);
+    return;
+  } else if (
+    input.innerHTML === "NaN" ||
+    input.innerHTML === "Infinity" ||
+    input.innerHTML === "-Infinity"
+  ) {
+    input.innerHTML = btnVal;
+  } else input.innerHTML += btnVal; 
 }
