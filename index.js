@@ -10,6 +10,7 @@ for (var i = 0; i < keys.length; i++) {
     var input = document.querySelector(".screen");
     var inputVal = input.innerHTML;
     var btnVal = this.innerHTML;
+    var lastChar = inputVal[inputVal.length - 1];
     if (input.innerHTML.length >= 30) {
       if (btnVal === "C") {
         input.innerHTML = "";
@@ -24,7 +25,7 @@ for (var i = 0; i < keys.length; i++) {
         input.innerHTML = "";
       } else if (btnVal === "=") {
         var equation = inputVal;
-        var lastChar = equation[equation.length - 1];
+        let lastChar = equation[equation.length - 1];
         equation = equation.replace(/x/g, "*").replace(/÷/g, "/");
         if (operators.indexOf(lastChar) > -1) {
           alert("Wrong input!");
@@ -36,7 +37,7 @@ for (var i = 0; i < keys.length; i++) {
         }
       } else if (operators.indexOf(btnVal) > -1) {
         decimalAdded = false;
-        var lastChar = inputVal[inputVal.length - 1];
+
         if (lastChar === "(" && btnVal === "-") {
           input.innerHTML += btnVal;
         } else if (lastChar === "(") {
@@ -71,20 +72,34 @@ for (var i = 0; i < keys.length; i++) {
           input.innerHTML += btnVal;
         }
       } else if (btnVal === ".") {
-        var lastChar = inputVal[inputVal.length - 1];
-        if (lastChar === ")" || lastChar === ".") {
+        if (
+          input.innerHTML === "NaN" ||
+          input.innerHTML === "Infiinity" ||
+          input.innerHTML === "-Infinity"
+        ) {
+          input.innerHTML = btnVal;
+        } else if (lastChar === ")" || lastChar === ".") {
           return;
         } else if (input.innerHTML === "Infinity") {
           input.innerHTML = "";
         } else if (operators.indexOf(lastChar) > -1) {
           return;
-        } else if (!decimalAdded && inputVal.length > 0) {
+        } else if (
+          (!decimalAdded && inputVal.length > 0 && input.innerHTML != "NaN") ||
+          input.innerHTML != "Infiinity" ||
+          input.innerHTML != "-Infinity"
+        ) {
           input.innerHTML += btnVal;
           decimalAdded = true;
         }
       } else if (btnVal === "(") {
-        var lastChar = input.innerHTML[inputVal.length - 1];
-        if (input.innerHTML === "") {
+        if (
+          input.innerHTML === "NaN" ||
+          input.innerHTML === "Infiinity" ||
+          input.innerHTML === "-Infinity"
+        ) {
+          input.innerHTML = btnVal;
+        } else if (input.innerHTML === "") {
           input.innerHTML += btnVal;
           openCount++;
         } else if (isNaN(lastChar) === false) {
@@ -96,8 +111,13 @@ for (var i = 0; i < keys.length; i++) {
           input.innerHTML += btnVal;
         }
       } else if (btnVal === ")") {
-        var lastChar = input.innerHTML[inputVal.length - 1];
-        if (operators.indexOf(lastChar) > -1) {
+        if (
+          input.innerHTML === "NaN" ||
+          input.innerHTML === "Infiinity" ||
+          input.innerHTML === "-Infinity"
+        ) {
+          input.innerHTML = "";
+        } else if (operators.indexOf(lastChar) > -1) {
           return;
         } else if (openCount <= 0) {
           input.innerHTML += "";
@@ -108,8 +128,13 @@ for (var i = 0; i < keys.length; i++) {
           openCount--;
         }
       } else if (btnVal === "DEL") {
-        var lastChar = input.innerHTML[inputVal.length - 1];
-        if (lastChar === ")") {
+        if (lastChar === "(") {
+          openCount--;
+          input.innerHTML = input.innerHTML.substring(
+            0,
+            input.innerHTML.length - 1
+          );
+        } else if (lastChar === ")") {
           openCount++;
           input.innerHTML = input.innerHTML.substring(
             0,
@@ -130,9 +155,14 @@ for (var i = 0; i < keys.length; i++) {
       } else {
         if (input.innerHTML === "Infinity") {
           input.innerHTML = "";
-        } else var lastChar = input.innerHTML[inputVal.length - 1];
-        if (lastChar === ")") {
+        } else if (lastChar === ")") {
           return;
+        } else if (
+          input.innerHTML === "NaN" ||
+          input.innerHTML === "Infiinity" ||
+          input.innerHTML === "-Infinity"
+        ) {
+          input.innerHTML = btnVal;
         } else input.innerHTML += btnVal;
       }
       e.preventDefault();
