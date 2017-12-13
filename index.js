@@ -1,11 +1,9 @@
 let keys = document.querySelectorAll("#calculator span");
-
 keys.forEach(el => {
   el.addEventListener("click", activated);
 });
 const operators = ["+", "-", "x", "÷"];
 let decimalAdded = false;
-let openBrack = false;
 let openCount = 0;
 function activated(e) {
   let input = document.querySelector(".screen");
@@ -99,7 +97,7 @@ function decim(input, lastChar, btnVal) {
     decimalAdded = true;
   }
 }
-function opBrack(input, lastChar, btnVal) {
+function openBrack(input, lastChar, btnVal) {
   if (
     input.innerHTML === "NaN" ||
     input.innerHTML === "Infiinity" ||
