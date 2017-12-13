@@ -1,3 +1,9 @@
+function addBanned(el) {
+  el.classList.add("banned");
+}
+function removeBanned(el) {
+  el.classList.remove("banned");
+}
 let keys = document.querySelectorAll("#calculator span");
 
 keys.forEach(el => {
@@ -12,57 +18,14 @@ function activated(e) {
   let btnVal = this.innerHTML;
   let lastChar = input.innerHTML.slice(-1);
   if (input.innerHTML.length >= 30) {
-    if (btnVal === "C") {
-      input.innerHTML = "";
-    } else if (btnVal === "DEL") {
-      input.innerHTML = input.innerHTML.substring(
-        0,
-        input.innerHTML.length - 1
-      );
-    } else alert("Limit of charachters!");
+    limitedChars();
   } else {
     if (btnVal === "C") {
-      input.innerHTML = "";
+      clear();
     } else if (btnVal === "=") {
-      let equation = input.innerHTML;
-      let lastChar = equation[equation.length - 1];
-      equation = equation.replace(/x/g, "*").replace(/÷/g, "/");
-      if (operators.indexOf(lastChar) > -1) {
-        alert("Wrong input!");
-      } else if (equation) {
-        input.innerHTML = eval(equation);
-      }
+      solve();
     } else if (operators.indexOf(btnVal) > -1) {
-      if (lastChar === "(" && btnVal === "-") {
-        input.innerHTML += btnVal;
-        decimalAdded = false;
-      } else if (
-        lastChar === "(" ||
-        lastChar === "." ||
-        input.innerHTML === "-" ||
-        (input.innerHTML[input.innerHTML.length - 2] === "(" &&
-          input.innerHTML[input.innerHTML.length - 1] === "-" &&
-          btnVal != "-"||input.innerHTML === "NaN" ||
-          input.innerHTML === "Infinity" ||
-          input.innerHTML === "-Infinity")
-      ) {
-        if(btnVal==="-")
-        {
-          input.innerHTML = "-"
-        }else
-        addBanned(this);
-        setTimeout(() => removeBanned(this),500);
-        return;
-      } else if (input.innerHTML.length === 0 && btnVal === "-") {
-        input.innerHTML += btnVal;
-        decimalAdded = false;
-      } else if (operators.indexOf(lastChar) > -1) {
-        input.innerHTML = input.innerHTML.replace(/.$/, btnVal);
-        decimalAdded = false;
-      } else if (input.innerHTML != "") {
-        input.innerHTML += btnVal;
-        decimalAdded = false;
-      }
+      operat();
     } else if (btnVal === ".") {
       if (
         input.innerHTML === "NaN" ||
@@ -73,7 +36,7 @@ function activated(e) {
         decimalAdded = true;
       } else if (lastChar === ")" || lastChar === ".") {
         addBanned(this);
-        setTimeout(() => removeBanned(this),500);
+        setTimeout(() => removeBanned(this), 500);
         return;
       } else if (decimalAdded === false) {
         input.innerHTML += btnVal;
@@ -110,7 +73,7 @@ function activated(e) {
         lastChar === "("
       ) {
         addBanned(this);
-        setTimeout(() => removeBanned(this),500);
+        setTimeout(() => removeBanned(this), 500);
         return;
       } else if (openCount > 0) {
         input.innerHTML += btnVal;
@@ -135,7 +98,7 @@ function activated(e) {
         input.innerHTML === "-Infinity"
       ) {
         addBanned(this);
-        setTimeout(() => removeBanned(this),500);
+        setTimeout(() => removeBanned(this), 500);
         return;
       } else if (lastChar === ".") {
         input.innerHTML = input.innerHTML.substring(
@@ -162,7 +125,7 @@ function activated(e) {
     } else {
       if (lastChar === ")") {
         addBanned(this);
-        setTimeout(() => removeBanned(this),500);
+        setTimeout(() => removeBanned(this), 500);
         return;
       } else if (
         input.innerHTML === "NaN" ||
@@ -175,9 +138,55 @@ function activated(e) {
     e.preventDefault();
   }
 }
-function addBanned(el){
-  el.classList.add("banned")
+
+function limitedChars() {
+  if (btnVal === "C") {
+    input.innerHTML = "";
+  } else if (btnVal === "DEL") {
+    input.innerHTML = input.innerHTML.substring(0, input.innerHTML.length - 1);
+  } else alert("Limit of charachters!");
 }
-function removeBanned(el){
-  el.classList.remove("banned")
+function clear() {
+  input.innerHTML = "";
+}
+function solve() {
+  let equation = input.innerHTML;
+  let lastChar = equation[equation.length - 1];
+  equation = equation.replace(/x/g, "*").replace(/÷/g, "/");
+  if (operators.indexOf(lastChar) > -1) {
+    alert("Wrong input!");
+  } else if (equation) {
+    input.innerHTML = eval(equation);
+  }
+}
+function operat() {
+  if (lastChar === "(" && btnVal === "-") {
+    input.innerHTML += btnVal;
+    decimalAdded = false;
+  } else if (
+    lastChar === "(" ||
+    lastChar === "." ||
+    input.innerHTML === "-" ||
+    ((input.innerHTML[input.innerHTML.length - 2] === "(" &&
+      input.innerHTML[input.innerHTML.length - 1] === "-" &&
+      btnVal != "-") ||
+      input.innerHTML === "NaN" ||
+      input.innerHTML === "Infinity" ||
+      input.innerHTML === "-Infinity")
+  ) {
+    if (btnVal === "-") {
+      input.innerHTML = "-";
+    } else addBanned(this);
+    setTimeout(() => removeBanned(this), 500);
+    return;
+  } else if (input.innerHTML.length === 0 && btnVal === "-") {
+    input.innerHTML += btnVal;
+    decimalAdded = false;
+  } else if (operators.indexOf(lastChar) > -1) {
+    input.innerHTML = input.innerHTML.replace(/.$/, btnVal);
+    decimalAdded = false;
+  } else if (input.innerHTML != "") {
+    input.innerHTML += btnVal;
+    decimalAdded = false;
+  }
 }
