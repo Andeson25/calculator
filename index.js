@@ -34,7 +34,11 @@ for (var i = 0; i < keys.length; i++) {
         }
       } else if (operators.indexOf(btnVal) > -1) {
         var lastChar = inputVal[inputVal.length - 1];
-        if (lastChar === ".") {
+        if (lastChar === "(" && btnVal === "-") {
+          input.innerHTML += btnVal;
+        } else if (lastChar === "(") {
+          input.innerHTML += "";
+        } else if (lastChar === ".") {
           return;
         } else if (input.innerHTML === "-") {
           return;
@@ -51,8 +55,10 @@ for (var i = 0; i < keys.length; i++) {
           input.innerHTML += btnVal;
         } else if (inputVal.length === 0 && btnVal === "-") {
           input.innerHTML += btnVal;
-        }
-        if (operators.indexOf(lastChar) > -1 && input.innerHTML.length > 1) {
+        } else if (
+          operators.indexOf(lastChar) > -1 &&
+          input.innerHTML.length > 1
+        ) {
           input.innerHTML = inputVal.replace(/.$/, btnVal);
         }
       } else if (btnVal === ".") {
@@ -72,7 +78,7 @@ for (var i = 0; i < keys.length; i++) {
         if (input.innerHTML === "") {
           input.innerHTML += btnVal;
           openCount++;
-        } else if (isNaN(lastChar)===false) {
+        } else if (isNaN(lastChar) === false) {
           input.innerHTML += "";
         } else if (lastChar === ")") {
           input.innerHTML += "";
