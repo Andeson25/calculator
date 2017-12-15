@@ -36,6 +36,7 @@ function activated(e) {
 
 function limitedChars(input, screenLastChar, btnVal) {
   if (btnVal === "C") {
+    decimalAdded=false;
     input.innerHTML = "";
   } else if (btnVal === "DEL") {
     input.innerHTML = input.innerHTML.substring(0, input.innerHTML.length - 1);
@@ -43,10 +44,14 @@ function limitedChars(input, screenLastChar, btnVal) {
 }
 
 function clear(input, screenLastChar, btnVal) {
+  decimalAdded=false;
   input.innerHTML = "";
 }
 
 function solve(input, screenLastChar, btnVal) {
+  if(input.innerHTML.search(".")>-1){
+    decimalAdded=true;
+  }
   let equation = input.innerHTML;
   let lastChar = equation[equation.length - 1];
   equation = equation.replace(/x/g, "*").replace(/÷/g, "/");
@@ -98,7 +103,10 @@ function decim(input, lastChar, btnVal) {
     decimalAdded = true;
   } else if (lastChar === ")" || lastChar === ".") {
     return;
-  } else if (decimalAdded === false) {
+  }if(input.innerHTML==="") {
+    return;
+  }
+  else if (decimalAdded === false) {
     input.innerHTML += btnVal;
     decimalAdded = true;
   }
